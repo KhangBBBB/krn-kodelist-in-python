@@ -3,7 +3,7 @@
 
 
 
-# Author : KhangBBBB
+# Author : Khang Bao.
 # Since : March 12, 2021
 # Version : 0.4
 
