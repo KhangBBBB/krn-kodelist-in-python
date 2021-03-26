@@ -2,6 +2,13 @@
 # coding=utf-8
 
 
+__author__ = "Khang Bao"
+__copyright__ = "Copyright (C) 2021 Khang Bao"
+__license__ = "GPL 3"
+__version__ = "0.3"
+
+
+
 # Author: Khang Bao.
 # Since: March 04, 2021
 # Version: 0.3
