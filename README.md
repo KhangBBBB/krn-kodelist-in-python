@@ -78,7 +78,7 @@ Later on, KRUN and KODELIST are likely to be ported to C for speed and archiving
 
 * To typeset this document with result from code evaluation (using Heirloom Troff backend engine):
 
-        cat file | krun -e | kodelist | troff -mkdoc -x |  dpost | ps2pdf - file.pdf
+        cat file | krun -e | kodelist | eqn | pic | tbl | troff -mkdoc -x |  dpost | ps2pdf - file.pdf
 
 * To typeset this document with result from code evaluation (using Groff backend engine):
 
