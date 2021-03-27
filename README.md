@@ -6,7 +6,7 @@ This project contains a set of preprocessors/processors to support literate prog
 Users can use these preprocessor on any plain text file (using their own macro package, etc) as long as the syntax are according to kdoc/kodelist.
 
 The project was initially a small project I submitted for Python class and also to support me taking note easier in programming classes/projects.
-I do hope other find it useful.
+I do hope others also find it useful.
 
 What makes kodelist and krun effective is that they are made as simple filters to be used with other utilities and standard tools and.
 Its ability to desmontrating a demonstration in a document comes in handy.
