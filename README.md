@@ -1,5 +1,5 @@
 # KRUN
-A system supporting literate programming, metaprogramming, and reproducible research for Troff.
+A system supporting literate programming, meta programming, and reproducible research for Troff.
 
 # Introduction
 This project contains a set of preprocessors/processors to support literate programming, metaprogramming, and reproducible research for Troff typesetting system.
