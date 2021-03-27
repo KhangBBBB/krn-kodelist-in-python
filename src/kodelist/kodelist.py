@@ -379,6 +379,10 @@ def formatCodeChar(s):
             result += '\\[dollar]'
         elif c == '|':
             result += '\\[bar]'
+        elif c == '&':
+            result += '\\[ampersand]'
+        elif c == '.':
+            result += '\\[period]'
         else:
             result += c
 
