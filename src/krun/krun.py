@@ -1428,18 +1428,24 @@ Options:
 
 Example file:
 
-    .PROCESSOR "" "" "python"
+    .\" set up the processor for session with id python@test.py
+    .PROCESSOR "python" "test.py" "python" "FILE_NAME"
+    .\" set the session to be ouputed to file
     .TOFILE python test.py MyTest.py
+    .\" the code segment
     .CODES python test.py pass123
     print("Hello World")
     .CODEE pass123
+    .\" set the session to run mode
     .RUN python test.py
+    .\" set the session to evaluate mode
     .EVALUATE python test.py
 
 Example:
 
     cat file.kdoc | krun -r
     cat file.kdoc | krun -e
+    krun file.kdoc -r
 
 About:
 
