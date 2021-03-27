@@ -5,7 +5,7 @@ A preprocessor supporting literate programming, reproducible research for Troff.
 This project contains a set of preprocessors/processors to support literate programming, metaprogramming, and reproducible research for Troff typesetting system.
 Users can use these preprocessor on any plain text file (using their own macro package, etc) as long as the syntax are according to kdoc/kodelist.
 
-The project was initially a small project I submitted for Python class and also to support me taking note easier in programming classes/projects.
+The project was initially a small project I submitted for Python class and also to support me to manage note/code easier in programming classes/projects.
 I do hope others also find it useful.
 
 What makes kodelist and krun effective is that they are made as simple filters to be used with other utilities and standard tools and.
