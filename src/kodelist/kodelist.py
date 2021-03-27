@@ -467,7 +467,27 @@ Options:
     -width
         set maximum width for the code body.
 
-Example:
+Example file:
+
+    .HEAD 1 "C programming"
+    .PP
+    An example for a C program:
+    .CODES C program.c
+    #include <stdio.h>
+    
+    int main()
+    {
+        printf("Hello World\n");
+    }
+    .CODEE
+    .PP
+    Output result of the code above:
+    .RESULTS C program.c pass123
+    Hello World
+    
+    .RESULTE pass123
+
+Example cli:
 
     Run kodelist with default option:
         cat file.mk | kodelist | troff -mkdoc -x | hdpost | ps2pdf - file.pdf
