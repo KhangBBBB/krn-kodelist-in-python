@@ -3,7 +3,7 @@
 
 __author__ = "Khang Bao"
 __copyright__ = "Copyright (C) 2021 Khang Bao"
-__license__ = "GPL 3"
+__license__ = "GPLv3"
 __version__ = "0.3"
 
 
