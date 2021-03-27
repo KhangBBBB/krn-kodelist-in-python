@@ -30,6 +30,7 @@ Later on, KRUN and KODELIST are likely to be ported to C for speed and archiving
         * kodelist: containg kodelist program manual
     * README.md
     * Makefile
+    * LICENSE
 
 # User Manual:
 * Inside doc directory
