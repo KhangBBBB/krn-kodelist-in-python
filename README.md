@@ -28,6 +28,10 @@ Later on, KRUN and KODELIST are likely to be ported to C.
     * README.md
     * Makefile
 
+# User Manual:
+* Inside doc directory
+
+
 # Installation
 ## Dependency
 * There is no special dependency for the programs beside Python interpreter and Python standard library.
