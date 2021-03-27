@@ -14,7 +14,7 @@ With proper techniques, users can add these programs to their workflow for daily
 kodelist and krun are written in Python programming language and currently using only Python standard modules.
 The programs should work on all machines that have Python interpreter.
 kodelist and krun are still in their early development stage, therefore, Python seems to chosen to prototying.
-Later on, KRUN and KODELIST are likely to be ported to C.
+Later on, KRUN and KODELIST are likely to be ported to C for speed and archiving.
 
 # Directory Explain:
 
