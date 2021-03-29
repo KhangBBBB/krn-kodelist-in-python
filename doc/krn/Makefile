@@ -1,5 +1,5 @@
-TARGET= KrunUserManual.pdf
-FILE=KrunUserManual.kdoc
+TARGET= KrnUserManual.pdf
+FILE=KrnUserManual.kdoc
 KDOC2PDF=kdoc2pdf
 
 all: $(FILE)
