@@ -1,4 +1,4 @@
-# KRN
+# KRN-KODELIST
 A system supporting literate programming, meta programming, and reproducible research for Troff.
 
 # Introduction
