@@ -13,7 +13,7 @@ __version__ = "0.3"
 
 
 
-#===== SOURCE CODE OF KRUN PROGRAM =====#
+#===== SOURCE CODE OF KRN PROGRAM =====#
 
 
 
@@ -22,15 +22,15 @@ __version__ = "0.3"
 # [x] CODEE
 # [x] RESULTS
 # [x] RESULTE
-# [x] RUN
-# [x] EVALUATE
-# [x] TOFILE
-# [x] CAPTURE
-# [x] ORDER
-# [x] LANGUAGE 
-# [x] PROCESSOR
-# [x] FILENAME
-# [ ] REPLACE : should turn off if redefine again.
+# [x] KRN_RUN
+# [x] KRN_EVALUATE
+# [x] KRN_TOFILE
+# [x] KRN_CAPTURE
+# [x] KRN_ORDER
+# [x] KRN_LANGUAGE 
+# [x] KRN_PROCESSOR
+# [x] FILE_NAME
+# [ ] KRN_REPLACE : should turn off if redefine again.
 
 # # Cli Options Implementation:
 # [x] help
@@ -46,7 +46,7 @@ __version__ = "0.3"
 
 # # Keyword
 # [x] STDIN@STDIN@STDIN
-# [x] FILENAME
+# [x] FILE_NAME
 
 # check option should also show the location of the buffer.
 
@@ -515,7 +515,7 @@ class CodeSessionArrProcessor:
         FILE_KEYWORD = "FILE_NAME"
         currentSystem = platform.system()
         if currentSystem == "Linux":
-            DIR = str(os.environ['HOME']) + "/.cache/krun/"
+            DIR = str(os.environ['HOME']) + "/.cache/krn/"
         else:
             DIR = ""
 
@@ -606,7 +606,7 @@ class CodeSessionArrProcessor:
                                     self.runInterpreter(self.interpreterDict[str(session.lang)][0], self.interpreterDict[str(session.lang)][1:], session.getCodeAfterRunCommand(), lang = session.lang, name = session.name)
 
                     else:
-                        sys.exit("krun doesn't run this language " + str(session.lang))
+                        sys.exit("krn doesn't run this language " + str(session.lang))
 
                 elif session.isInterpreter == True:
                         if session.interpreter["arguments"] != None:
@@ -875,7 +875,7 @@ class CodeSessionArrProcessor:
 
     def formatResultBlock(self, lang = None, name = None, s = None):
         """
-        Formatting the source code block for EVALUATE command.
+        Formatting the source code block for KRN_EVALUATE command.
         """
 
         randomNum = random.randint(100,1000000)
@@ -922,7 +922,7 @@ class CodeSessionArrProcessor:
                             output = self.runInterpreter(session.interpreter["processor"], session.interpreter["arguments"], session.getCodeBeforeEvaluateCommand(), returnOutput = True, lang = session.lang, name = session.name)
                             evaluateOutputDict[session.evaluateLine] = self.formatResultBlock(session.lang, session.name, output)
                 else:
-                    sys.exit("krun doesn't evaluate this language " + str(session.lang))
+                    sys.exit("krn doesn't evaluate this language " + str(session.lang))
         else:
             for session in evaluateSessionList:
                 if session.id == sessionId:
@@ -991,7 +991,7 @@ class KdocCodeProcessor():
     This class processes the kdoc document.
     """
 
-    def __init__(self, startMarker = "CODES", endMarker = "CODEE", tofileMarker = "TOFILE", runMarker = "RUN", evaluateMarker = "EVALUATE", interpreterMarker = "PROCESSOR", captureMarker = "CAPTURE", orderMarker = "ORDER", languageMarker = "LANGUAGE", markup = "."):
+    def __init__(self, startMarker = "CODES", endMarker = "CODEE", tofileMarker = "KRN_TOFILE", runMarker = "KRN_RUN", evaluateMarker = "KRN_EVALUATE", interpreterMarker = "KRN_PROCESSOR", captureMarker = "KRN_CAPTURE", orderMarker = "KRN_ORDER", languageMarker = "KRN_LANGUAGE", markup = "."):
         self.markup = markup
         self.startMarker = startMarker
         self.endMarker = endMarker
@@ -1305,7 +1305,7 @@ class KdocCodeProcessor():
                 if parseList == None:
                     parseList = []
             if len(parseList) > 1:
-                # EVALUATE command
+                # KRN_EVALUATE command
                 if parseList[1] == self.evaluateMarker and inCodeFlag == False:
                     isEvaluate, lang, name = self.processEvaluateCode(parseList)
                     codeSessionArr.addCode(lang = lang, name = name, evaluateLine = lineNum)
@@ -1326,27 +1326,27 @@ class KdocCodeProcessor():
                     else:
                         codeSessionArr.addCode(lineNum = lineNum, lang = lang, name = name, code = line)
                         continue
-                # RUN command
+                # KRN_RUN command
                 elif parseList[1] == self.runMarker and inCodeFlag == False:
                     isRun, lang, name = self.processRunCode(parseList)
                     codeSessionArr.addCode(lang = lang, name = name, isRun = isRun, runLine = lineNum)
-                # TOFILE command
+                # KRN_TOFILE command
                 elif parseList[1] == self.tofileMarker and inCodeFlag == False:
                     isTofile, lang, name, directory = self.processTofileCode(parseList)
                     codeSessionArr.addCode(lang = lang, name = name, isTofile = isTofile, directory = directory)
-                # PROCESSOR command
+                # KRN_PROCESSOR command
                 elif parseList[1] == self.interpreterMarker and inCodeFlag == False:
                     isInterpreter, lang, name, interpreter = self.processInterpreterCode(parseList)
                     codeSessionArr.addCode(lang = lang, name = name, isInterpreter = isInterpreter, interpreter = interpreter)
-                # CAPTURE command
+                # KRN_CAPTURE command
                 elif parseList[1] == self.captureMarker and inCodeFlag == False:
                     isCapture, lang, name, keyword = self.processTofileCode(parseList)
                     codeSessionArr.addCode(lang = lang, name = name, isCapture = isCapture, keyword = keyword)
-                # ORDER command
+                # KRN_ORDER command
                 elif parseList[1] == self.orderMarker and inCodeFlag == False:
                     isOrder, lang, name = self.processOrderCode(parseList)
                     codeSessionArr.addCode(lang = lang, name = name, isOrder = isOrder, orderLine = lineNum)
-                # LANGUAGE command
+                # KRN_LANGUAGE command
                 elif parseList[1] == self.languageMarker and inCodeFlag == False:
                     language = self.processLanguageCode(parseList, language)
                 # block inside CODES and CODEE
@@ -1372,9 +1372,9 @@ class CommandlineProcessor:
     # alias keywords for the same option. Not implement yet.
     HELP_OPTION_ALIAS 			= 	["-help", 		"-h", 	"?"	]
     ID_OPTION_ALIAS 			= 	["-id", 		"-i"		]
-    TOFILE_OPTION_ALIAS 		= 	["-tofile", 		"-t"		]
-    EVALUATE_OPTION_ALIAS 		= 	["-evaluate", 		"-e"		]
-    RUN_OPTION_ALIAS	 		= 	["-run", 		"-r"		]
+    KRN_TOFILE_OPTION_ALIAS 		= 	["-tofile", 		"-t"		]
+    KRN_EVALUATE_OPTION_ALIAS 		= 	["-evaluate", 		"-e"		]
+    KRN_RUN_OPTION_ALIAS	 		= 	["-run", 		"-r"		]
     OUTPUT_OPTION_ALIAS 		= 	["-output", 		"-o"		]
     STASTISTIC_OPTION_ALIAS 		= 	["-stat", 		"-s"		]
     CHECK_OPTION_ALIAS 			= 	["-check", 		"-c"		]
@@ -1390,9 +1390,9 @@ class CommandlineProcessor:
 
         print(
 """
-krun - a simple filter supporting literate programming for kdoc or any plain text file.
+krn - a simple filter supporting literate programming for kdoc or any plain text file.
 
-Usage: krun [option[arg]] [option[arg]] ...
+Usage: krn [option[arg]] [option[arg]] ...
 
 Options:
 
@@ -1414,7 +1414,7 @@ Options:
         check if file to be written exists in the directory.
     -r
     -run
-        execute the specified code with RUN command.
+        execute the specified code with KRN_RUN command.
     -e
     -evaluate
         evaluate code and combine with the stream as a preprocessor for Troff
@@ -1429,23 +1429,23 @@ Options:
 Example file:
 
     .\" set up the processor for session with id python@test.py
-    .PROCESSOR "python" "test.py" "python" "FILE_NAME"
+    .KRN_PROCESSOR "python" "test.py" "python" "FILE_NAME"
     .\" set the session to be ouputed to file
-    .TOFILE python test.py MyTest.py
+    .KRN_TOFILE python test.py MyTest.py
     .\" the code segment
     .CODES python test.py pass123
     print("Hello World")
     .CODEE pass123
     .\" set the session to run mode
-    .RUN python test.py
+    .KRN_RUN python test.py
     .\" set the session to evaluate mode
-    .EVALUATE python test.py
+    .KRN_EVALUATE python test.py
 
 Example:
 
-    cat file.kdoc | krun -r
-    cat file.kdoc | krun -e
-    krun file.kdoc -r
+    cat file.kdoc | krn -r
+    cat file.kdoc | krn -e
+    krn file.kdoc -r
 
 About:
 
@@ -1476,7 +1476,7 @@ About:
             if args[1] in CommandlineProcessor.HELP_OPTION_ALIAS:
                 CommandlineProcessor.printHelpMsg()
                 sys.exit()
-            elif args[1] in CommandlineProcessor.TOFILE_OPTION_ALIAS:
+            elif args[1] in CommandlineProcessor.KRN_TOFILE_OPTION_ALIAS:
                 tofileFlag = True
             elif args[1] in CommandlineProcessor.OUTPUT_OPTION_ALIAS:
                 outputFlag = True
@@ -1485,20 +1485,20 @@ About:
                     executeFlag = True
                     fileName = args[2]
                 else:
-                    sys.exit("krun: missing filename after -execute option.")
+                    sys.exit("krn: missing filename after -execute option.")
             elif args[1] in CommandlineProcessor.EXECUTE_AND_STDIN_OPTION_ALIAS:
                 if argc > 2:
                     executeStdinFlag = True
                     fileName = args[2]
                 else:
-                    sys.exit("krun: missing filename after -execute option.")
+                    sys.exit("krn: missing filename after -execute option.")
             elif args[1] in CommandlineProcessor.STASTISTIC_OPTION_ALIAS:
                 statisticFlag = True
             elif args[1] in CommandlineProcessor.CHECK_OPTION_ALIAS:
                 checkFlag = True
-            elif args[1] in CommandlineProcessor.EVALUATE_OPTION_ALIAS:
+            elif args[1] in CommandlineProcessor.KRN_EVALUATE_OPTION_ALIAS:
                 evaluateFlag = True
-            elif args[1] in CommandlineProcessor.RUN_OPTION_ALIAS:
+            elif args[1] in CommandlineProcessor.KRN_RUN_OPTION_ALIAS:
                 runFlag = True
             elif args[1] in CommandlineProcessor.ID_OPTION_ALIAS:
                 if argc > 2:
@@ -1506,15 +1506,15 @@ About:
                     if argc > 3:
                         if args[3] in CommandlineProcessor.OUTPUT_OPTION_ALIAS:
                             outputFlag = True
-                        elif args[3] in CommandlineProcessor.TOFILE_OPTION_ALIAS:
+                        elif args[3] in CommandlineProcessor.KRN_TOFILE_OPTION_ALIAS:
                             tofileFlag = True
                         elif args[3] in CommandlineProcessor.STASTISTIC_OPTION_ALIAS:
                             statisticFlag = True
                         elif args[3] in CommandlineProcessor.CHECK_OPTION_ALIAS:
                             checkFlag = True
-                        elif args[3] in CommandlineProcessor.EVALUATE_OPTION_ALIAS:
+                        elif args[3] in CommandlineProcessor.KRN_EVALUATE_OPTION_ALIAS:
                             evaluateFlag = True
-                        elif args[3] in CommandlineProcessor.RUN_OPTION_ALIAS:
+                        elif args[3] in CommandlineProcessor.KRN_RUN_OPTION_ALIAS:
                             runFlag = True
                         else:
                             sys.exit("Unappropriate option after id value.")
@@ -1529,7 +1529,7 @@ About:
                         if args[3] in CommandlineProcessor.HELP_OPTION_ALIAS:
                             CommandlineProcessor.printHelpMsg()
                             sys.exit()
-                        elif args[3] in CommandlineProcessor.TOFILE_OPTION_ALIAS:
+                        elif args[3] in CommandlineProcessor.KRN_TOFILE_OPTION_ALIAS:
                             tofileFlag = True
                         elif args[3] in CommandlineProcessor.OUTPUT_OPTION_ALIAS:
                             outputFlag = True
@@ -1538,20 +1538,20 @@ About:
                                 executeFlag = True
                                 fileName = args[3]
                             else:
-                                sys.exit("krun: missing filename after -execute option.")
+                                sys.exit("krn: missing filename after -execute option.")
                         elif args[1] in CommandlineProcessor.EXECUTE_AND_STDIN_OPTION_ALIAS:
                             if argc > 4:
                                 executeStdinFlag = True
                                 fileName = args[3]
                             else:
-                                sys.exit("krun: missing filename after -execute option.")
+                                sys.exit("krn: missing filename after -execute option.")
                         elif args[3] in CommandlineProcessor.STASTISTIC_OPTION_ALIAS:
                             statisticFlag = True
                         elif args[3] in CommandlineProcessor.CHECK_OPTION_ALIAS:
                             checkFlag = True
-                        elif args[3] in CommandlineProcessor.EVALUATE_OPTION_ALIAS:
+                        elif args[3] in CommandlineProcessor.KRN_EVALUATE_OPTION_ALIAS:
                             evaluateFlag = True
-                        elif args[3] in CommandlineProcessor.RUN_OPTION_ALIAS:
+                        elif args[3] in CommandlineProcessor.KRN_RUN_OPTION_ALIAS:
                             runFlag = True
                         elif args[3] in CommandlineProcessor.ID_OPTION_ALIAS:
                             if argc > 4:
@@ -1559,15 +1559,15 @@ About:
                                 if argc > 5:
                                     if args[5] in CommandlineProcessor.OUTPUT_OPTION_ALIAS:
                                         outputFlag = True
-                                    elif args[5] in CommandlineProcessor.TOFILE_OPTION_ALIAS:
+                                    elif args[5] in CommandlineProcessor.KRN_TOFILE_OPTION_ALIAS:
                                         tofileFlag = True
                                     elif args[5] in CommandlineProcessor.STASTISTIC_OPTION_ALIAS:
                                         statisticFlag = True
                                     elif args[5] in CommandlineProcessor.CHECK_OPTION_ALIAS:
                                         checkFlag = True
-                                    elif args[5] in CommandlineProcessor.EVALUATE_OPTION_ALIAS:
+                                    elif args[5] in CommandlineProcessor.KRN_EVALUATE_OPTION_ALIAS:
                                         evaluateFlag = True
-                                    elif args[5] in CommandlineProcessor.RUN_OPTION_ALIAS:
+                                    elif args[5] in CommandlineProcessor.KRN_RUN_OPTION_ALIAS:
                                         runFlag = True
                                     else:
                                         sys.exit("Unappropriate option after id value.")
@@ -1582,7 +1582,7 @@ About:
                     if args[2] in CommandlineProcessor.HELP_OPTION_ALIAS:
                         CommandlineProcessor.printHelpMsg()
                         sys.exit()
-                    elif args[2] in CommandlineProcessor.TOFILE_OPTION_ALIAS:
+                    elif args[2] in CommandlineProcessor.KRN_TOFILE_OPTION_ALIAS:
                         tofileFlag = True
                     elif args[2] in CommandlineProcessor.OUTPUT_OPTION_ALIAS:
                         outputFlag = True
@@ -1591,20 +1591,20 @@ About:
                             executeFlag = True
                             fileName = args[3]
                         else:
-                            sys.exit("krun: missing filename after -execute option.")
+                            sys.exit("krn: missing filename after -execute option.")
                     elif args[1] in CommandlineProcessor.EXECUTE_AND_STDIN_OPTION_ALIAS:
                         if argc > 3:
                             executeStdinFlag = True
                             fileName = args[3]
                         else:
-                            sys.exit("krun: missing filename after -execute option.")
+                            sys.exit("krn: missing filename after -execute option.")
                     elif args[2] in CommandlineProcessor.STASTISTIC_OPTION_ALIAS:
                         statisticFlag = True
                     elif args[2] in CommandlineProcessor.CHECK_OPTION_ALIAS:
                         checkFlag = True
-                    elif args[2] in CommandlineProcessor.EVALUATE_OPTION_ALIAS:
+                    elif args[2] in CommandlineProcessor.KRN_EVALUATE_OPTION_ALIAS:
                         evaluateFlag = True
-                    elif args[2] in CommandlineProcessor.RUN_OPTION_ALIAS:
+                    elif args[2] in CommandlineProcessor.KRN_RUN_OPTION_ALIAS:
                         runFlag = True
                     elif args[2] in CommandlineProcessor.ID_OPTION_ALIAS:
                         if argc > 3:
@@ -1612,22 +1612,22 @@ About:
                             if argc > 4:
                                 if args[4] in CommandlineProcessor.OUTPUT_OPTION_ALIAS:
                                     outputFlag = True
-                                elif args[4] in CommandlineProcessor.TOFILE_OPTION_ALIAS:
+                                elif args[4] in CommandlineProcessor.KRN_TOFILE_OPTION_ALIAS:
                                     tofileFlag = True
                                 elif args[4] in CommandlineProcessor.STASTISTIC_OPTION_ALIAS:
                                     statisticFlag = True
                                 elif args[4] in CommandlineProcessor.CHECK_OPTION_ALIAS:
                                     checkFlag = True
-                                elif args[4] in CommandlineProcessor.EVALUATE_OPTION_ALIAS:
+                                elif args[4] in CommandlineProcessor.KRN_EVALUATE_OPTION_ALIAS:
                                     evaluateFlag = True
-                                elif args[4] in CommandlineProcessor.RUN_OPTION_ALIAS:
+                                elif args[4] in CommandlineProcessor.KRN_RUN_OPTION_ALIAS:
                                     runFlag = True
                                 else:
                                     sys.exit("Unappropriate option after id value.")
                         else:
                             sys.exit("Missing value after -id.")
         else:
-            print("Try krun -h for usage.")
+            print("Try krn -h for usage.")
             sys.exit()
 
         return (commandlineId, statisticFlag, outputFlag, tofileFlag, checkFlag, runFlag, evaluateFlag, executeFlag, executeStdinFlag, fileName, getStdinFlag)
@@ -1657,10 +1657,10 @@ class MainDriver():
 
         # It's okay to change this to suit your need.
         # Make sure they are availabe on your computer when in use, otherwise comment it out or avoid using it.
-        # PROCESSOR_DICT = {
+        # KRN_PROCESSOR_DICT = {
         #    "<language name>" : ["<processor command>", [optional commandline arguments]],
         #    }
-        PROCESSOR_DICT = {
+        KRN_PROCESSOR_DICT = {
             "None" 		: 	["python",			],
             "python" 		: 	["python",			],
             "ipython" 		: 	["ipython",			],
@@ -1670,7 +1670,7 @@ class MainDriver():
             "awk" 		: 	["awk",				],
             "perl" 		: 	["perl",			],
             "R" 		: 	["R",				],
-            "kdoc" 		:	["krun",	"-r"		],
+            "kdoc" 		:	["krn",	"-r"		],
             "C" 		:	["tcc",		"FILE_NAME",	],
             "java" 		:	["javac",	"FILE_NAME"	],
             "yacc" 		:	["yacc",	"FILE_NAME"	],
@@ -1697,8 +1697,8 @@ class MainDriver():
                 i += 1
             codeSessionArr, language = kdocCodeProcessor.processCode(lineList)
             codeSessionArr.sortSession()
-            updatedInterpreterDict = MainDriver.updateInterpreterDict(PROCESSOR_DICT, language)
-            # codeSessionArrProcessor = CodeSessionArrProcessor(codeSessionArr, PROCESSOR_DICT)
+            updatedInterpreterDict = MainDriver.updateInterpreterDict(KRN_PROCESSOR_DICT, language)
+            # codeSessionArrProcessor = CodeSessionArrProcessor(codeSessionArr, KRN_PROCESSOR_DICT)
             codeSessionArrProcessor = CodeSessionArrProcessor(codeSessionArr, updatedInterpreterDict)
             codeSessionArrProcessor.operateExecuteSession(commandlineId, False)
         # if option is -executewithstdin or its alias
@@ -1713,8 +1713,8 @@ class MainDriver():
                 i += 1
             codeSessionArr, language = kdocCodeProcessor.processCode(lineList)
             codeSessionArr.sortSession()
-            updatedInterpreterDict = MainDriver.updateInterpreterDict(PROCESSOR_DICT, language)
-            # codeSessionArrProcessor = CodeSessionArrProcessor(codeSessionArr, PROCESSOR_DICT)
+            updatedInterpreterDict = MainDriver.updateInterpreterDict(KRN_PROCESSOR_DICT, language)
+            # codeSessionArrProcessor = CodeSessionArrProcessor(codeSessionArr, KRN_PROCESSOR_DICT)
             codeSessionArrProcessor = CodeSessionArrProcessor(codeSessionArr, updatedInterpreterDict)
             codeSessionArrProcessor.operateExecuteSession(commandlineId, True)
         # if option is -evaluate or its alias
@@ -1732,8 +1732,8 @@ class MainDriver():
                     i += 1
                 codeSessionArr, language = kdocCodeProcessor.processCode(lineList)
             codeSessionArr.sortSession()
-            updatedInterpreterDict = MainDriver.updateInterpreterDict(PROCESSOR_DICT, language)
-            # codeSessionArrProcessor = CodeSessionArrProcessor(codeSessionArr, PROCESSOR_DICT)
+            updatedInterpreterDict = MainDriver.updateInterpreterDict(KRN_PROCESSOR_DICT, language)
+            # codeSessionArrProcessor = CodeSessionArrProcessor(codeSessionArr, KRN_PROCESSOR_DICT)
             codeSessionArrProcessor = CodeSessionArrProcessor(codeSessionArr, updatedInterpreterDict)
             codeSessionArrProcessor.substituteStdin(getStdinFlag)
             evaluateOutputDict = codeSessionArrProcessor.getEvaluateList(commandlineId, lineList)
@@ -1763,8 +1763,8 @@ class MainDriver():
                 codeSessionArr, language = kdocCodeProcessor.processCode(lineList)
             # sorting the session
             codeSessionArr.sortSession()
-            updatedInterpreterDict = MainDriver.updateInterpreterDict(PROCESSOR_DICT, language)
-            # codeSessionArrProcessor = CodeSessionArrProcessor(codeSessionArr, PROCESSOR_DICT)
+            updatedInterpreterDict = MainDriver.updateInterpreterDict(KRN_PROCESSOR_DICT, language)
+            # codeSessionArrProcessor = CodeSessionArrProcessor(codeSessionArr, KRN_PROCESSOR_DICT)
             codeSessionArrProcessor = CodeSessionArrProcessor(codeSessionArr, updatedInterpreterDict)
             codeSessionArrProcessor.substituteStdin(getStdinFlag)
 
@@ -1773,7 +1773,7 @@ class MainDriver():
                 codeSessionArrProcessor.outputFileSession(commandlineId)
             elif checkFlag == True:
                 codeSessionArrProcessor.checkOverlapFile(commandlineId)
-                # codeSessionArrProcessor.checkPlatformInterpreter(interpreterDict = PROCESSOR_DICT)
+                # codeSessionArrProcessor.checkPlatformInterpreter(interpreterDict = KRN_PROCESSOR_DICT)
                 codeSessionArrProcessor.checkPlatformInterpreter(interpreterDict = updatedInterpreterDict)
             elif statisticFlag == True:
                 codeSessionArrProcessor.printStatistic(commandlineId)
