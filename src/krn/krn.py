@@ -1389,7 +1389,7 @@ class CommandlineProcessor:
         """
 
         print(
-"""
+r"""
 krn - a simple filter supporting literate programming for kdoc or any plain text file.
 
 Usage: krn [option[arg]] [option[arg]] ...
