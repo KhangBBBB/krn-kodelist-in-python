@@ -1,15 +1,15 @@
-.LANGUAGE kdoc krun -r
-.de CAPTURE
+.KRN_LANGUAGE kdoc krn -r
+.de KRN_CAPTURE
 ..
-.TITLE "KRUN - A Language for Literate Programming" "User Manual"
+.TITLE "KRN - A Language for Literate Programming" "User Manual"
 .AUTHOR "Khang Bao"
 .DATE "March 11, 2021"
 .MAKE_TITLE
 .
 .ABSTRACTS
 .PP
-KRUN is a language for literate programming, metaprogramming, and reproducible research.
-KRUN was designed in the way that a user of ed, the standard editor, can use it almost effectively as much as Emacs or Vi users would.
+KRN is a language for literate programming, metaprogramming, and reproducible research.
+KRN was designed in the way that a user of ed, the standard editor, can use it almost effectively as much as Emacs or Vi users would.
 By declarative language design, users can quickly utilize many great programming techinques, and easily script a demonstration that performing a demonstration.
 .PP
 Example output:
@@ -45,18 +45,18 @@ Now we can remove the file:
 .CODES bash Example1.sh pass222
 rm -r LanguageData.txt
 .CODEE pass222
-.RUN bash Example1.sh
+.KRN_RUN bash Example1.sh
 .CODEE pass1234
 .\" -------------------------------------------------- ]]]
-.EVALUATE kdoc AbstractExample.kdoc
-.CAPTURE kdoc AbstractExample.kdoc key
+.KRN_EVALUATE kdoc AbstractExample.kdoc
+.KRN_CAPTURE kdoc AbstractExample.kdoc key
 .PP
 Processing the file above with the command:
 .\".CODES bash AbstractCliExample.sh
-.\"cat file.kdoc | krun -e | kodelist | troff -kdoc -x | dpost | ps2pdf - - > file.pdf
+.\"cat file.kdoc | krn -e | kodelist | troff -kdoc -x | dpost | ps2pdf - - > file.pdf
 .\".CODEE
 .CODES bash AbstractCliExample.sh
-cat file.kdoc | krun -r
+cat file.kdoc | krn -r
 .CODEE
 .ABSTRACTE
 .
@@ -67,20 +67,20 @@ cat file.kdoc | krun -r
 .\" ==========
 .HEAD 1 "Introduction"
 .PP
-KRUN is a domain specific language for literate programming, reproducible research (RR), and metaprogramming.
+KRN is a domain specific language for literate programming, reproducible research (RR), and metaprogramming.
 It's designed for programmers, researchers, or power users.
 It was initally a small project for me to submit for a CS113 final project assignment while I was working on KDOC macro package, and the first version was around 500 lines in Python written over an evening but is still actively maintained for more features or reimplemented in different language.
-KRUN can operate as a processor to execute the source code or as a preprocessor which can be used with kodelist (a code listing preprocessor written by Khang Bao) to pipe to Troff typesetting engine to produce typesetted paper.
+KRN can operate as a processor to execute the source code or as a preprocessor which can be used with kodelist (a code listing preprocessor written by Khang Bao) to pipe to Troff typesetting engine to produce typesetted paper.
 .PP
-KRUN was inspired partly by Donald Knuth published paper on literate programming system, Org-mode Babel, and Jupyter.
-KRUN addressed many hurdles of many popular RR tools and designed to aim for larger domain of users.
+KRN was inspired partly by Donald Knuth published paper on literate programming system, Org-mode Babel, and Jupyter.
+KRN addressed many hurdles of many popular RR tools and designed to aim for larger domain of users.
 Org-mode and Org-mode Babel are mostly usable on Emacs which makes it very hard for other users from wider range of text editor, IDE to use.
 Jupyter is mostly using Json file format which can be a challange to edit directly in the file.
 Most of popular RR tools bounds strongly to a interactive graphical environment, a single file format, and perfoms action on the file (alter the file) which makes them not easy to port for other software and workflow.
-KRUN designed as a simple filter which can be manipulated in many ways and can be used from within any text editors or environment while reserving the source file unaltered and safe.
+KRN designed as a simple filter which can be manipulated in many ways and can be used from within any text editors or environment while reserving the source file unaltered and safe.
 .PP
-KRUN can be used as processor/preprocessor for kdoc, a structural marked up language (a macro package written by Khang Bao in Troff language) but also can be easily configured to work with other marked up language or simple text file.
-Users can write their own macro package in Troff and use KRUN without any complicated modification.
+KRN can be used as processor/preprocessor for kdoc, a structural marked up language (a macro package written by Khang Bao in Troff language) but also can be easily configured to work with other marked up language or simple text file.
+Users can write their own macro package in Troff and use KRN without any complicated modification.
 .PP
 This paper discusses design philosophy, language/program specification, and usage.
 Through reading this manual, users will not only able to use the program but also understand the code logic beind the program and some its application.
@@ -92,17 +92,17 @@ Through reading this manual, users will not only able to use the program but als
 .\" ==========
 .HEAD 1 "Design philosophy"
 .PP
-KRUN follows many principles of the Unix philosophy and is designed to be used with Unix utilites.
+KRN follows many principles of the Unix philosophy and is designed to be used with Unix utilites.
 The program is minimal which allows other developers and users can quickly understand the code logic to extend the program to their wishes using Python programming language.
-KRUN is designed as a simple filter and a mini language which are noticiable concepts in the Unix design philosophy.
+KRN is designed as a simple filter and a mini language which are noticiable concepts in the Unix design philosophy.
 Rather a large complex program that do-it-all, filter allows combining with other software easily and also swap with newer implementation effortless.
 Filter allows better separation between the raw source code and the output.
 Through some simple lines of shell script, users can set up a tool chain for producing quality paper and performing literate programming.
 .PP
-KRUN is never designed to be general-purposed like programming language but a language that specializes in enabling literate programming and metaprogramming.
+KRN is never designed to be general-purposed like programming language but a language that specializes in enabling literate programming and metaprogramming.
 The language is very declarative, thus, making it very easy to learn, use and extend for more functionality, and it's much closer to natural language.
 .PP
-Keeping it portable and simple by using only robust Python standard modules, therefore, users can also easily run KRUN on their Unix based phone through the terminal emulator when they are on the go or wrap around a graphical interface for other purposes.
+Keeping it portable and simple by using only robust Python standard modules, therefore, users can also easily run KRN on their Unix based phone through the terminal emulator when they are on the go or wrap around a graphical interface for other purposes.
 .PP
 The language specification is compact, descriptive, and clear therefore, developers can easily implement it in other language like C or Rust.
 The program doesn't have a standard configuration file, the reason to this is that implementation in Python is already very reable and users can extend much further than a config file.
@@ -117,8 +117,8 @@ Some of the hurdles of literate programming keeping track of the current line nu
 .\" ==========
 .HEAD 1 "Program Mechanism"
 .PP
-KRUN parses the document and collects every single code snippets enclosed by a set of special markers.
-krun engine can both able to parse from standard input or read from file, enabling some flexibilites and features.
+KRN parses the document and collects every single code snippets enclosed by a set of special markers.
+krn engine can both able to parse from standard input or read from file, enabling some flexibilites and features.
 The program stores each session with its affiliated records like name, language, processor, and mode etc.
 Some commands can act like a switch altering different aspects like intepreter/compiler setup, session language, session name, etc.
 .
@@ -152,27 +152,27 @@ If not specify or passing empty argument, the password is set as None.
 The password should be matched with \*[ICS]CODES\*[ICE], otherwise the requests will be treated as part of the code snippet.
 .  LISTE
 .IT
-\*[ICS]LANGUAGE [language] [processor] [argument1] [argument2] ...\*[ICE]: request to add a new language to be interpreted.
+\*[ICS]KRN_LANGUAGE [language] [processor] [argument1] [argument2] ...\*[ICE]: request to add a new language to be interpreted.
 .IT
-\*[ICS]PROCESSOR [language] [name] [processor] [argument1] [argument2] ...\*[ICE]: request to specify the interpreter/compiler for a code session.
-This request only works if the language is already specified to be run in the krun program source code or language added by \*[ICS]LANGUAGE\*[ICE] request.
+\*[ICS]KRN_PROCESSOR [language] [name] [processor] [argument1] [argument2] ...\*[ICE]: request to specify the interpreter/compiler for a code session.
+This request only works if the language is already specified to be run in the krn program source code or language added by \*[ICS]KRN_LANGUAGE\*[ICE] request.
 .IT
-\*[ICS]RUN [language] [name]\*[ICE]: request to make the code snipped executed with run option/mode.
+\*[ICS]KRN_RUN [language] [name]\*[ICE]: request to make the code snipped executed with run option/mode.
 .IT
-\*[ICS]EVALUATE [language] [name]\*[ICE]: request to make the code snipped executed with evaluate option/mode.
+\*[ICS]KRN_EVALUATE [language] [name]\*[ICE]: request to make the code snipped executed with evaluate option/mode.
 .IT
-\*[ICS]CAPTURE [language] [name] [keyword]\*[ICE]: a request to capture the output to a keyword (use in metaprogramming).
+\*[ICS]KRN_CAPTURE [language] [name] [keyword]\*[ICE]: a request to capture the output to a keyword (use in metaprogramming).
 .IT
-\*[ICS]TOFILE [language] [name] [filename]\*[ICE]: a request to output the code session to the file with tofile option/mode.
+\*[ICS]KRN_TOFILE [language] [name] [filename]\*[ICE]: a request to output the code session to the file with tofile option/mode.
 .IT
 \*[ICS]ORDER [language] [name]\*[ICE]: request to setup the order of the code snippet execution.
 .IT
-\*[ICS]RESULTS [language] [name] [password]\*[ICE]: request to start a result block, this request should be generated by krun for kodelist preprocessor when evaluate option/mode is used.
+\*[ICS]RESULTS [language] [name] [password]\*[ICE]: request to start a result block, this request should be generated by krn for kodelist preprocessor when evaluate option/mode is used.
 .IT
-\*[ICS]RESULTE [password]\*[ICE]: request to end a result block, this request should be generated by krun when evaluate option is used.
+\*[ICS]RESULTE [password]\*[ICE]: request to end a result block, this request should be generated by krn when evaluate option is used.
 .IT
 \*[ICS]HIDE\*[ICE]: Hide the block of code when producing paper.
-This command is actually implement in kdoc macro package than a command of KRUN but it's worth to mention in this list.
+This command is actually implement in kdoc macro package than a command of KRN but it's worth to mention in this list.
 .LISTE
 .\" ====================
 .  HEAD 2 "Built-in Keyword Summary"
@@ -190,20 +190,20 @@ When in use, should be delimit left and right with \*[ICS]:::\*[ICE].
 .HEAD 1 "Commandline Options"
 .LISTS B
 .IT
-Usage: \*[ICS]krun [option[argument]] [option[argument]]\*[ICE]
+Usage: \*[ICS]krn [option[argument]] [option[argument]]\*[ICE]
 .IT
 Options:
 .  LISTS B
 .  IT
 \*[ICS]-help\*[ICE] or \*[ICS]-h\*[ICE] or \*[ICS]-?\*[ICE]: print the help message.
 .  IT
-\*[ICS]-evaluate\*[ICE] or \*[ICS]-e\*[ICE]: use krun as evaluate mode and read from standard input.
+\*[ICS]-evaluate\*[ICE] or \*[ICS]-e\*[ICE]: use krn as evaluate mode and read from standard input.
 .  IT
-\*[ICS]-run\*[ICE] or \*[ICS]-r\*[ICE]: use krun as run mode and read from standard input.
+\*[ICS]-run\*[ICE] or \*[ICS]-r\*[ICE]: use krn as run mode and read from standard input.
 .  IT
-\*[ICS]-tofile\*[ICE] or \*[ICS]-t\*[ICE]: use krun as tofile mode and read from standard input.
+\*[ICS]-tofile\*[ICE] or \*[ICS]-t\*[ICE]: use krn as tofile mode and read from standard input.
 .  IT
-\*[ICS]-output\*[ICE] or \*[ICS]-o\*[ICE]: use krun as output mode and read from standard input.
+\*[ICS]-output\*[ICE] or \*[ICS]-o\*[ICE]: use krn as output mode and read from standard input.
 .  IT
 \*[ICS]-check\*[ICE] or \*[ICS]-c\*[ICE]: print the report of different checking.
 .  IT
@@ -232,12 +232,12 @@ Options include:
 .  LISTE
 .  LISTE
 .IT
-Use krun in a pipeline:
+Use krn in a pipeline:
 .in 0
 .PS
 circle "file.kdoc"
 arrow
-box "krun -e"
+box "krn -e"
 arrow
 box "kodelist"
 arrow 
@@ -256,7 +256,7 @@ circle "file.pdf"
 .\" ==========
 .HEAD 1 "Installation"
 .PP
-krun program has no dependency or any external package beside the Python interpreter.
+krn program has no dependency or any external package beside the Python interpreter.
 .PP
 Users might need to install Kdocutils, Heirloom Troff/Groff/Neatroff, and ImageMagick (to use ps2pdf to convert PostScript to PDF) to produce paper in PDF.
 .PP
@@ -287,19 +287,19 @@ Write the following code into a text file name "file.kdoc":
 .CODES kdoc RunExample.kdoc pass111
 .CODES bash program.sh
 echo -e "Hello World."
-echo -e "Introduction to KRUN."
+echo -e "Introduction to KRN."
 .CODEE
-.RUN bash program.sh
+.KRN_RUN bash program.sh
 .CODEE pass111
 .\" -------------------------------------------------- ]]]
 .PP
 Run the following command in the terminal get the output from the code block inside the "file.kdoc":
 .CODES bash RunExampleCli.sh
-cat file.kdoc | krun -r
+cat file.kdoc | krn -r
 .CODEE
 .PP
 The following output will be printed to the standard output:
-.EVALUATE kdoc RunExample.kdoc
+.KRN_EVALUATE kdoc RunExample.kdoc
 .
 .
 .
@@ -309,23 +309,23 @@ The following output will be printed to the standard output:
 .HEAD 1 "Evaluate Mode"
 .PP
 Write the following code into a text file name "file.kdoc":
-.PROCESSOR kdoc EvaluateExample.kdoc krun -e
+.KRN_PROCESSOR kdoc EvaluateExample.kdoc krn -e
 .\" -------------------------------------------------- [[[
 .CODES kdoc EvaluateExample.kdoc pass111
 .CODES bash program.sh
 echo -e ".CS\nprint(1000 + 10)\n.CE" | sed "s/CS/CODES/g" | sed "s/CE/CODEE/g"
 .CODEE
-.EVALUATE bash program.sh
+.KRN_EVALUATE bash program.sh
 .CODEE pass111
 .\" -------------------------------------------------- ]]]
 .PP
 The following output will be printed to the standard output and can also be processed further by kodelist to produce Troff code:
 .\" -------------------------------------------------- [[[
 .CODES bash EvaluateExampleCli.sh
-cat file.kdoc | krun -e
+cat file.kdoc | krn -e
 .CODEE
 .\" -------------------------------------------------- ]]]
-.EVALUATE kdoc EvaluateExample.kdoc
+.KRN_EVALUATE kdoc EvaluateExample.kdoc
 .
 .
 .
@@ -337,18 +337,18 @@ cat file.kdoc | krun -e
 Write the following code into a text file name "file.kdoc":
 .\" -------------------------------------------------- [[[
 .CODES kdoc TofileExample.kdoc pass123
-.TOFILE markdown README.md 
+.KRN_TOFILE markdown README.md 
 .CODES markdown README.md
 # Introduction
 KODELIST is a preprocessor formatting code listing for Troff typesetting.
-KODELIST can be used with KRUN.
+KODELIST can be used with KRN.
 .CODEE
 .CODEE pass123
 .\" -------------------------------------------------- ]]]
 .PP
 Run the follwing command in the terminal:
 .CODES bash TofileExample.sh
-cat file.kdoc | krun -t
+cat file.kdoc | krn -t
 .CODEE
 .PP
 After that, the file README.md will be created in the current directory and contain the specified code block.
@@ -361,7 +361,7 @@ After that, the file README.md will be created in the current directory and cont
 .HEAD 1 "Output Mode"
 .PP
 Write the following code into a text file name "file.kdoc":
-.PROCESSOR kdoc OutputExample.kdoc krun -o
+.KRN_PROCESSOR kdoc OutputExample.kdoc krn -o
 .\" -------------------------------------------------- [[[
 .CODES kdoc OutputExample.kdoc pass123
 .CODES java DriverClass.java
@@ -378,12 +378,12 @@ public class DriverClass {
 Run the follwing command in the terminal to get the output:
 .\" -------------------------------------------------- [[[
 .CODES bash TofileExampleCli.sh
-cat file.kdoc | krun -o
+cat file.kdoc | krn -o
 .CODEE
 .\" -------------------------------------------------- ]]]
 .PP
 We will get the following standard output in the terminal:
-.EVALUATE kdoc OutputExample.kdoc
+.KRN_EVALUATE kdoc OutputExample.kdoc
 .
 .
 .
@@ -393,7 +393,7 @@ We will get the following standard output in the terminal:
 .HEAD 1 "Hide A Code Segment"
 .PP
 Hiding a code segment help when you want to use a code snippet to perform generative coding or just want to display the output.
-The actual feature is implemented in KDOC macro package rather than KRUN or KODELIST themselves.
+The actual feature is implemented in KDOC macro package rather than KRN or KODELIST themselves.
 .CODES kdoc HideExample.kdoc pass123
 .HIDE
 .CODES python program.py
@@ -410,10 +410,10 @@ print(divmod(25, 10))
 .PP
 Get statistic is one of the useful option to keep track the document or making reports.
 The output of the statistic option is formatted in yaml which is readable for human and also easy to parser via standard yaml parser in many language.
-The output of the statistic will include the statistic the default languages (included the ones setup by LANGUAGE request) and each session informations.
+The output of the statistic will include the statistic the default languages (included the ones setup by KRN_LANGUAGE request) and each session informations.
 The session are arranged top down according to their execution order.
 Write the following code into a text file name "file.kdoc":
-.PROCESSOR kdoc StatisticExample.kdoc krun -s
+.KRN_PROCESSOR kdoc StatisticExample.kdoc krn -s
 .CODES kdoc StatisticExample.kdoc pass123
 .CODES python program.py
 import sys
@@ -425,11 +425,11 @@ for arg in sys.argv:
 .PP
 Run the follwing command in the terminal to get the statistic:
 .CODES bash StatisticExampleCli.sh
-cat file.kdoc | krun -s
+cat file.kdoc | krn -s
 .CODEE
 .PP
 We will get the following standard output in the terminal:
-.EVALUATE kdoc StatisticExample.kdoc
+.KRN_EVALUATE kdoc StatisticExample.kdoc
 .
 .
 .
@@ -438,17 +438,17 @@ We will get the following standard output in the terminal:
 .\" ==========
 .HEAD 1 "Add New Language to be Interpreted"
 .PP
-Request \*[ICS]LANGUAGE\*[ICE] will add a new interpreter/compiler for the current file.
+Request \*[ICS]KRN_LANGUAGE\*[ICE] will add a new interpreter/compiler for the current file.
 .\" -------------------------------------------------- [[[
 .CODES kdoc AddLanguageExample.kdoc pass123
-.LANGUAGE perl "/usr/bin/perl"
+.KRN_LANGUAGE perl "/usr/bin/perl"
 .CODEE pass123
 .\" -------------------------------------------------- ]]]
 .PP
-Besides, you can also use the special keyword \*[ICS]FILE_NAME\*[ICE] in the arguments part of the LANGUAGE, this will replace by the name of the session when running the interpreter/compiler.
+Besides, you can also use the special keyword \*[ICS]FILE_NAME\*[ICE] in the arguments part of the KRN_LANGUAGE, this will replace by the name of the session when running the interpreter/compiler.
 .\" -------------------------------------------------- [[[
 .CODES kdoc AddLanguageExample.kdoc pass123
-.LANGUAGE perl "/usr/bin/perl" "FILE_NAME"
+.KRN_LANGUAGE perl "/usr/bin/perl" "FILE_NAME"
 .CODEE pass123
 .\" -------------------------------------------------- ]]]
 .
@@ -459,18 +459,18 @@ Besides, you can also use the special keyword \*[ICS]FILE_NAME\*[ICE] in the arg
 .\" ==========
 .HEAD 1 "Set Up Custom Processor For Session"
 .PP
-Comparing to \*[ICS]LANGUAGE\*[ICE] request, \*[ICE]PROCESSOR\*[ICE] will only affect the specified session rather than every session.
-\*[ICS]PROCESSOR\*[ICE] will only work if the language is defined.
+Comparing to \*[ICS]KRN_LANGUAGE\*[ICE] request, \*[ICE]KRN_PROCESSOR\*[ICE] will only affect the specified session rather than every session.
+\*[ICS]KRN_PROCESSOR\*[ICE] will only work if the language is defined.
 .\" -------------------------------------------------- [[[
 .CODES kdoc CustomProcessorExample.kdoc pass123
-.PROCESSOR python program.py python2
+.KRN_PROCESSOR python program.py python2
 .CODES python program.py
 print "Hello World"
 .CODEE
-.RUN python program.py
+.KRN_RUN python program.py
 .CODEE pass123
 .\" -------------------------------------------------- ]]]
-.EVALUATE kdoc CustomProcessorExample.kdoc
+.KRN_EVALUATE kdoc CustomProcessorExample.kdoc
 .
 .
 .
@@ -480,7 +480,7 @@ print "Hello World"
 .HEAD 1 "Working With Specific Session Using ID"
 .PP
 Write the following code into a text file name "file.kdoc":
-.PROCESSOR kdoc UseIDExample.kdoc krun -o
+.KRN_PROCESSOR kdoc UseIDExample.kdoc krn -o
 .\" -------------------------------------------------- [[[
 .CODES kdoc UseIDExample.kdoc pass123
 .PP
@@ -498,11 +498,11 @@ echo -e "Hello World."
 .PP
 To output only session with language "python" and name "UseIDExample.py", run the following command in the terminal:
 .CODES bash UseIDExampleCli.sh
-cat % | krun -id python@program.py -o
+cat % | krn -id python@program.py -o
 .CODEE
 .PP
 We will get the following standard output:
-.EVALUATE kdoc UseIDExample.kdoc
+.KRN_EVALUATE kdoc UseIDExample.kdoc
 .
 .
 .
@@ -511,23 +511,23 @@ We will get the following standard output:
 .\" ==========
 .HEAD 1 "Check dependency, file existence"
 .PP
-krun engine also contains a \*[ICS]-check\*[ICE] option allowing users to keep track of the avaibility of different interpreters/processors on the user machine.
+krn engine also contains a \*[ICS]-check\*[ICE] option allowing users to keep track of the avaibility of different interpreters/processors on the user machine.
 .PP
 Write the following code snippet in the terminal:
 .CODES bash checkExample.sh pass123
 echo "
-.TOFILE python Example.py
+.KRN_TOFILE python Example.py
 .CODES python Example.py
 print(\"Hello World\")
 .CODEE
-" | krun -c
+" | krn -c
 .CODEE pass123
 .PP
 Depending user machine, user may find different result from this check option.
 The Example.py file is clearly does not exist on my current directory, therefore, I can safely use tofile mode to write the code of the session to Example.py file.
 .PP
 Interpreter for cmd (MSDOS) language doesn't exist on my machine, so I shouldn't run any code snippets using the language.
-.EVALUATE bash checkExample.sh
+.KRN_EVALUATE bash checkExample.sh
 .
 .
 .
@@ -536,53 +536,53 @@ Interpreter for cmd (MSDOS) language doesn't exist on my machine, so I shouldn't
 .\" ==========
 .HEAD 1 "Using getstdin Mode"
 .PP
-This is the special built-in keyword in KRUN.
-This is another way if user want to get standard input directly from KRUN rather than standard input from a code snippet.
+This is the special built-in keyword in KRN.
+This is another way if user want to get standard input directly from KRN rather than standard input from a code snippet.
 This should only be used when using file as a filter.
 .CODES bash getstdinExample.sh pass123
 mkdir getstdinExampleTemp
-echo -e ".CODES\nprint(\"\"\":::STDIN@STDIN@STDIN:::\"\"\")\n.CODEE\n.RUN" > getstdinExampleTemp/getstdinExample.kdoc
-echo Hello | krun -g getstdinExampleTemp/getstdinExample.kdoc -r
+echo -e ".CODES\nprint(\"\"\":::STDIN@STDIN@STDIN:::\"\"\")\n.CODEE\n.KRN_RUN" > getstdinExampleTemp/getstdinExample.kdoc
+echo Hello | krn -g getstdinExampleTemp/getstdinExample.kdoc -r
 rm -R getstdinExampleTemp
 .CODEE pass123
 .PP
 We will get the following result:
-.EVALUATE bash getstdinExample.sh
+.KRN_EVALUATE bash getstdinExample.sh
 .
 .
 .
 .
 .
 .\" ==========
-.HEAD 1 "Use KRUN for Metaprogramming"
+.HEAD 1 "Use KRN for Metaprogramming"
 .PP
 Metaprogramming technique will help users a lot in automate report, assignment, research paper, or development.
-By using simple text replacement mechanism, KRUN allows user to perform metaprogramming.
+By using simple text replacement mechanism, KRN allows user to perform metaprogramming.
 Users can capture output of one program and put it in anywhere in the document or in a variable of a python program which then process the string further.
-This feature provided by KRUN, allows users to use R, Python, Perl, and languages together easily and predictable inside a single file.
+This feature provided by KRN, allows users to use R, Python, Perl, and languages together easily and predictable inside a single file.
 .
 Metaprogramming also enables generative coding technique.
 Instead of writing a block of text by hand, users can write a code snippets and generate a code for the document, thus, partially automate, parameterize, and increase consistency.
 .PP
-Org-mode metaprogramming feature allows user to pass a data to a function in more direct way while KRUN is designed to perform text replacement like a macro.
-Each language has their own strength, KRUN intents to makes the code sessions more predictable when performing metaprogramming. 
+Org-mode metaprogramming feature allows user to pass a data to a function in more direct way while KRN is designed to perform text replacement like a macro.
+Each language has their own strength, KRN intents to makes the code sessions more predictable when performing metaprogramming. 
 .
 .
 .
 .
 .\" ==========
-.HEAD 1 "Use KRUN for Literate Programming"
+.HEAD 1 "Use KRN for Literate Programming"
 .PP
 Literate Programming was introduced and popular by Donald Knuth.
-Literate Programming was the first feature to be implemented in KRUN.
+Literate Programming was the first feature to be implemented in KRN.
 Literate Programming focuses more on explaining the code logic to a human being and embedding code snippets along the way.
 This technique requires 2 processors: a processor for collecting code snippets for execution and another processor for typesetting to produce quality paper.
-KRUN and KODELIST (as a preprocessor for Troff formatting engine) are designed to take on these task.
+KRN and KODELIST (as a preprocessor for Troff formatting engine) are designed to take on these task.
 .PP
-KRUN engine has a variety of modes for users to extract the code session or multiple code sessions.
+KRN engine has a variety of modes for users to extract the code session or multiple code sessions.
 Output mode would extract all code of all session to standard output and if invoke with id option, then only the select session will output to standard oupout.
 Another mode to use for literate programming is tofile mode.
-By specifying the session and optional output filename, running the tofile mode, KRUN will write all of specified sessions to specified files.
+By specifying the session and optional output filename, running the tofile mode, KRN will write all of specified sessions to specified files.
 This can be convenient for people to manage configuration files, scripts, or data.
 .
 .
@@ -590,11 +590,11 @@ This can be convenient for people to manage configuration files, scripts, or dat
 .
 .
 .\" ==========
-.HEAD 1 "Use KRUN for Reproducible Research"
+.HEAD 1 "Use KRN for Reproducible Research"
 .PP
 Reproducible Research technique can be a handy technique data scientists, programmers or researchers in general.
 This tecnique enables displaying the process of getting the result in the most organized manner.
-This user manual example output are all generated by krun engine.
+This user manual example output are all generated by krn engine.
 Anybody with have the right dependency and setup can easily recompile this document again to look exactly the same.
 .
 .
@@ -606,11 +606,11 @@ Anybody with have the right dependency and setup can easily recompile this docum
 .\" ====================
 .  HEAD 2 "Use for Homework"
 .PP
-This is an another demonstration using KRUN to enable generative coding techniqne to automate the document writing.
+This is an another demonstration using KRN to enable generative coding techniqne to automate the document writing.
 Functions to produce kdoc and EQN code.
 When processing further using EQN preprocessor, it will produce Troff code for mathematical expression.
 This technique is very convient for student working on school assignment which has a lot of repetitive procedure or requires consistency.
-.PROCESSOR kdoc example.kdoc krun -e
+.KRN_PROCESSOR kdoc example.kdoc krn -e
 .\" -------------------------------------------------- [[[
 .CODES kdoc example.kdoc 111
 .HIDE
@@ -633,17 +633,17 @@ def formatEuclid(a, b):
 
 n = formatEuclid(45, 37)
 .CODEE pass123
-.EVALUATE python mathHW1.py
-.CAPTURE python mathHW1.py mykey1
+.KRN_EVALUATE python mathHW1.py
+.KRN_CAPTURE python mathHW1.py mykey1
 .PP
 Euclid Algorithm:
 :::python@mathHW1.py@mykey1:::
 .CODEE 111
 .\" -------------------------------------------------- ]]]
-.EVALUATE kdoc example.kdoc
-.CAPTURE kdoc example.kdoc mykey
+.KRN_EVALUATE kdoc example.kdoc
+.KRN_CAPTURE kdoc example.kdoc mykey
 .PP
-The code above when running: \*[ICS]cat file.kdoc | krun -e\*[ICE] will produce the following output to the standard output.
+The code above when running: \*[ICS]cat file.kdoc | krn -e\*[ICE] will produce the following output to the standard output.
 .RESULTS
 :::kdoc@example.kdoc@mykey:::
 .RESULTE
@@ -655,21 +655,21 @@ The code above when running: \*[ICS]cat file.kdoc | krun -e\*[ICE] will produce 
 .\" ==========
 .HEAD 1 "Some Observation"
 .PP
-KRUN can be an important postprocessor for many other preprocessors.
-KRUN can also be modified as a module in Python to be used as part of another Python program.
+KRN can be an important postprocessor for many other preprocessors.
+KRN can also be modified as a module in Python to be used as part of another Python program.
 .PP
-Due to KRUN implementation in Python language, the boot time of Python interpreter can be a slow if the users have a lot of krun invokes in the document.
-KRUN implementation in C would a better choice if people need absolute speed for constant processing and future proof.
+Due to KRN implementation in Python language, the boot time of Python interpreter can be a slow if the users have a lot of krn invokes in the document.
+KRN implementation in C would a better choice if people need absolute speed for constant processing and future proof.
 .PP
 Developers or tinkers can also edit the source code slightly to make it work with LaTeX, MS, MOM, or Markdown.
 .PP
-KRUN does not bind to any development environment, therefore, users from any text editor can be almost as efficiency when switching to different ones.
+KRN does not bind to any development environment, therefore, users from any text editor can be almost as efficiency when switching to different ones.
 .PP
 It's also very easy (possibly even more enjoyable) to write kdoc document without any syntax highlighting.
 .PP
 Due to nature of kdoc as a textual, structural file format, users can collaborate with other people productively without a complicated setup and use standard version control tool like git to manage.
 .PP
-Users should combine the KRUN system with other Unix utilites for further text processing or analytic of data or codes.
+Users should combine the KRN system with other Unix utilites for further text processing or analytic of data or codes.
 .
 .
 .
@@ -680,13 +680,13 @@ Users should combine the KRUN system with other Unix utilites for further text p
 .PP
 This document is produced with the commands:
 .CODES
-cat file.kdoc | krun -e | kodelist | soelim | klean | klush | pic | tbl | eqn | troff -kdoc -x | dpost | ps2pdf - - > file.pdf
+cat file.kdoc | krn -e | kodelist | soelim | klean | klush | pic | tbl | eqn | troff -kdoc -x | dpost | ps2pdf - - > file.pdf
 .CODEE
 .PP
-This document using kodelist, klean, klush, krun, kdoc macro package of Kdocutils; modified version pic, tbl, eqn of Plan9; Troff of Heirllom Troff; and ps2pdf of ImageMagick.
+This document using kodelist, klean, klush, krn, kdoc macro package of Kdocutils; modified version pic, tbl, eqn of Plan9; Troff of Heirllom Troff; and ps2pdf of ImageMagick.
 .PP
-All the example output are all generated evaluate mode of KRUN.
+All the example output are all generated evaluate mode of KRN.
 .PP
-Author of KRUN and this paper: Khang Bao.
+Author of KRN and this paper: Khang Bao.
 .PP
-KRUN version: 0.4
+KRN version: 0.4
