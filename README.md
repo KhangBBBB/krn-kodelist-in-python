@@ -41,9 +41,9 @@ Later on, KRN and KODELIST are likely to be ported to C for speed and archiving.
 * There is no special dependency for the programs beside Python interpreter and Python standard library.
 
 ## Linux users:
-* Run:
+* Build and install:
 
-        sudo make all && make install
+        make all && sudo make install
 
 * Clean up:
 
