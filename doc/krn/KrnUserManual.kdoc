@@ -133,24 +133,24 @@ Some commands can act like a switch altering different aspects like intepreter/c
 .LISTS B
 .IT
 \*[ICS]CODES [language] [name] [password]\*[ICE]: request to start a code segment.
-.  LISTS B
-.  IT
+.	LISTS B
+.	IT
 \*[ICS][language]\*[ICE]: optional argument to specify a language.
 If not specify or passing empty argument, the language is set as None.
-.  IT
+.	IT
 \*[ICS][name]\*[ICE]: optional argument to specify the session name.
 If not specify or passing empty argument, the name is set as None.
-.  IT
+.	IT
 \*[ICS][password]\*[ICE]: optional argument to distinguish which \*[ICS]CODEE\*[ICE] is actual and is very important when users want to embed a code snippet that also contains \*[ICS]CODEE\*[ICE].
 If not specify or passing empty argument, the password is set as None.
-.  LISTE
+.	LISTE
 .IT
 \*[ICS]CODEE [password]\*[ICE]: request to end a code segment.
-.  LISTS B
-.  IT
+.	LISTS B
+.	IT
 \*[ICS][password]\*[ICE]: optional argument to specify the password.
 The password should be matched with \*[ICS]CODES\*[ICE], otherwise the requests will be treated as part of the code snippet.
-.  LISTE
+.	LISTE
 .IT
 \*[ICS]KRN_LANGUAGE [language] [processor] [argument1] [argument2] ...\*[ICE]: request to add a new language to be interpreted.
 .IT
@@ -175,7 +175,7 @@ This request only works if the language is already specified to be run in the kr
 This command is actually implement in kdoc macro package than a command of KRN but it's worth to mention in this list.
 .LISTE
 .\" ====================
-.  HEAD 2 "Built-in Keyword Summary"
+.	HEAD 2 "Built-in Keyword Summary"
 .LISTS B
 .IT
 \*[ICS]STDIN@STDIN@STDIN\*[ICE]: if invoke with getstdin mode, the standard input will replace the the keyword with the text stream.
@@ -193,44 +193,43 @@ When in use, should be delimit left and right with \*[ICS]:::\*[ICE].
 Usage: \*[ICS]krn [option[argument]] [option[argument]]\*[ICE]
 .IT
 Options:
-.  LISTS B
-.  IT
+.	LISTS B
+.	IT
 \*[ICS]-help\*[ICE] or \*[ICS]-h\*[ICE] or \*[ICS]-?\*[ICE]: print the help message.
-.  IT
+.	IT
 \*[ICS]-evaluate\*[ICE] or \*[ICS]-e\*[ICE]: use krn as evaluate mode and read from standard input.
-.  IT
+.	IT
 \*[ICS]-run\*[ICE] or \*[ICS]-r\*[ICE]: use krn as run mode and read from standard input.
-.  IT
+.	IT
 \*[ICS]-tofile\*[ICE] or \*[ICS]-t\*[ICE]: use krn as tofile mode and read from standard input.
-.  IT
+.	IT
 \*[ICS]-output\*[ICE] or \*[ICS]-o\*[ICE]: use krn as output mode and read from standard input.
-.  IT
+.	IT
 \*[ICS]-check\*[ICE] or \*[ICS]-c\*[ICE]: print the report of different checking.
-.  IT
+.	IT
 \*[ICS]-stat\*[ICE] or \*[ICS]-s\*[ICE]: print out the statistic (in the yaml format) of the code snippets.
-.  IT
+.	IT
 \*[ICS]-id <session-id> [option]\*[ICE]: operate only the session with specified id.
-.  LISTS B
-.  IT
+.	LISTS B
+.	IT
 \*[ICS]<sessiom-id>\*[ICE]: session id of a code session in the file.
 The convension for a session-id combining the language of the session and the session name seperating by an alt symbol: \*[ICS]<language>@<name>\*[ICE].
 If either language or name is empty, then the lanugage or the name should be called as \*[ICS]None\*[ICE].
-.  IT
+.	IT
 Options include:
-.    LISTS B
-.    IT
+.		LISTS B
+.		IT
 \*[ICS]-evaluate\*[ICE] or \*[ICS]-e\*[ICE]: evaluate mode
-.    IT
+.		IT
 \*[ICS]-run\*[ICE] or \*[ICS]-r\*[ICE]: run mode
-.    IT
+.		IT
 \*[ICS]-tofile\*[ICE] or \*[ICS]-t\*[ICE]: tofile mode
-.    IT
+.		IT
 \*[ICS]-output\*[ICE] or \*[ICS]-o\*[ICE]: output mode
-.    IT
+.		IT
 \*[ICS]-statistic\*[ICE] or \*[ICS]-s\*[ICE]: print statistic in yaml format.
-.    LISTE
-.  LISTE
-.  LISTE
+.		LISTE
+.	LISTE
 .IT
 Use krn in a pipeline:
 .in 0
