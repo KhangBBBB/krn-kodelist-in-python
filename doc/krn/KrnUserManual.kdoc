@@ -129,7 +129,7 @@ Some commands can act like a switch altering different aspects like intepreter/c
 .\" ==========
 .HEAD 1 "Language Specification"
 .\" ====================
-.  HEAD 2 "Comamnds/Requests Summary"
+.	HEAD 2 "Comamnds/Requests Summary"
 .LISTS B
 .IT
 \*[ICS]CODES [language] [name] [password]\*[ICE]: request to start a code segment.
