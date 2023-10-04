@@ -12,7 +12,7 @@ What makes kodelist and krn effective is that they are made as simple filters to
 Its ability to desmontrating a demonstration in a document comes in handy.
 Users can utilize these tools effortlessly with any text editor, IDE, or in the terminal on their phone without drastically change in workflow when switching different editing environment unlike most interactive tools.
 Operation of krn and kodelist are all stream manipulation, therefore, users' source documents are unaffected.
-With proper techniques, users can add these programs to their workflow for daily note-taking, specific file management, data science and software development.
+With proper techniques, users can add these programs to their workflow for daily note-taking, specific file management, data science, and software development.
 
 kodelist and krn are written in Python programming language and currently using only Python standard modules.
 The programs should work on all machines that have Python interpreter.
@@ -27,7 +27,7 @@ Later on, KRN and KODELIST are likely to be ported to C for speed and archiving.
         * kodelist: folder containing source code of kodelist program
     * doc: containg program manual folder
         * krn: containg krn program manual
-        * kodelist: containg kodelist program manual
+        * kodelist: containing kodelist program manual
     * README.md
     * Makefile
     * LICENSE
