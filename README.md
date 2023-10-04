@@ -38,7 +38,7 @@ Later on, KRN and KODELIST are likely to be ported to C for speed and archiving.
 
 # Installation
 ## Dependency
-* There is no special dependency for the programs beside Python interpreter and Python standard library.
+* There is no special dependency for the programs besides the Python interpreter and Python standard library.
 
 ## Linux users:
 * Build and install:
@@ -76,7 +76,7 @@ Later on, KRN and KODELIST are likely to be ported to C for speed and archiving.
         cat file | krn -r
 
 
-* To typeset this document with result from code evaluation (using Heirloom Troff backend engine):
+* To typeset this document with the result from code evaluation (using the Heirloom Troff backend engine):
 
         cat file | krn -e | kodelist | eqn | pic | tbl | troff -mkdoc -x |  dpost | ps2pdf - file.pdf
 
@@ -85,8 +85,8 @@ Later on, KRN and KODELIST are likely to be ported to C for speed and archiving.
         cat file | krn -e | kodelist | groff -mkdoc -k -e -t -p -g -Tps | ps2pdf - file.pdf
 
 * Note
-    * Make sure users install kdoc macro package to use or write their own include macros from krn/kodelist.
-    * Using -help option for more information about usage.
+    * Make sure users install doc macro package to use or write their own including macros from krn/models.
+    * Use -help option for more information about usage.
 
             krn -help
             kodelist -help
